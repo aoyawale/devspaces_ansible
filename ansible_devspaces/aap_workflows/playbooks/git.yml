@@ -9,8 +9,7 @@
   pre_tasks:
     - name: Include vars from platform_configs directory
       ansible.builtin.include_vars:
-        dir: ./yaml
-        ignore_files: [controller_config.yml.template]
+        dir: ./vars
         extensions: ["yml"]
   roles:
     - {role: infra.aap_configuration.controller_projects, when: controller_projects is defined}
