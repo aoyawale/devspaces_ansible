@@ -1,4 +1,12 @@
 ---
+
+- name: Create git Repositories
+  hosts: localhost
+  connection: local
+  roles:
+    - app_git
+
+
 - name: Playbook to configure ansible controller post installation
   hosts: localhost
   connection: local
