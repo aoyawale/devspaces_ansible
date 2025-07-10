@@ -15,4 +15,4 @@
         extensions: ["yml"]
   roles:
     - {role: infra.aap_configuration.controller_projects, when: controller_projects is defined}
-      app_git
+    - app_git
