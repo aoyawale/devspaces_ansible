@@ -1,18 +1,20 @@
 ---
 
-
-- name: Playbook to configure ansible controller post installation
+- name: Create git Configurations
   hosts: localhost
-  connection: local
-  # Define following vars here, or in platform_configs/controller_auth.yml
-  # aap_hostname: ansible-controller-web-svc-test-project.example.com
-  # aap_username: admin
-  # aap_password: changeme
-  pre_tasks:
-    - name: Include vars from platform_configs directory
-      ansible.builtin.include_vars:
-        dir: ./vars
-        extensions: ["yml"]
-  roles:
-    - {role: infra.aap_configuration.controller_projects, when: controller_projects is defined}
-    - app_git
+  gather_facts: no
+  vars:
+    validate_certs: false
+  tasks:
+    - name: Create a Github repository
+      community.general.github_repo:
+        access_token: "{{ github_repo_token }}"
+        organization: "{{ github_repo_org }}"
+        name: "{{ github_repo_name }}"
+        description: "{{ github_repo_desc }}"
+        private: "{{ github_repo_status }}"
+        state: "{{ github_repo_state }}"
+        force_defaults: false
+      register: github_create
+
+
