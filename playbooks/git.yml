@@ -1,11 +1,5 @@
 ---
 
-- name: Create git Repositories
-  hosts: localhost
-  connection: local
-  roles:
-    - app_git
-
 
 - name: Playbook to configure ansible controller post installation
   hosts: localhost
@@ -21,3 +15,4 @@
         extensions: ["yml"]
   roles:
     - {role: infra.aap_configuration.controller_projects, when: controller_projects is defined}
+      app_git
