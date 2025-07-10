@@ -11,6 +11,11 @@ controller_projects:
   scm_type: git
   scm_update_on_launch: 'no'
   scm_url: https://github.com/ansible/tower-example.git
-  notification_templates_error:
-  - Slack_for_testing
 
+
+github_repo_token:
+github_repo_org:
+github_repo_name:
+github_repo_desc:
+github_repo_status:
+github_repo_state:
