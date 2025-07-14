@@ -1,41 +1,48 @@
 ---
 
 controller_credentials:
-- name: gitlab
-  description: Credentials for GitLab
+- name: Github Credentials
+  description: Credentials for Github
   organization: Default
   credential_type: Source Control
   inputs:
     username: person
     password: password
-- name: hashivault
-  description: HashiCorp Vault Secret Lookup example using token auth
-  organization: Default
-  credential_type: HashiCorp Vault Secret Lookup
-  inputs:
-    url: https://vault.example.com:8243
-    token: token
-    cacert: "{{ lookup('ansible.builtin.file', '/path/to/ca-certificates.crt') }}"
-    api_version: v2
-- name: localuser
-  description: Machine Credential example with become_method input
-  credential_type: Machine
-  inputs:
-    username: localuser
-    password: password
-    become_method: sudo
 
 controller_projects:
-- name: controller Config
+- name: AAP Config as coode Project
   organization: Default
-  scm_branch: master
+  scm_branch: main
   scm_clean: 'no'
   scm_delete_on_update: 'no'
   scm_type: git
   scm_update_on_launch: 'no'
-  scm_url: https://github.com/ansible/tower-example.git
-  notification_templates_error:
-  - Slack_for_testing
+  scm_url: git@github.com:aoyawale/devspaces_ansible.git
+
+controller_templates:
+- name: Create AAP Project Credentials
+  job_type: run
+  inventory: Demo Inventory
+  project: config_code
+  playbook: aap_credentials.yml
+  credentials:
+  - Demo Credential
+  survey: {}
+  #extra_vars: "{{ empty_master_vars }}"
+- name: Create AAP Git Project
+  job_type: run
+  inventory: Demo Inventory
+  project: config_code
+  playbook: aap_projects.yml
+  credentials:
+  - Demo Credential
+  survey: {}
+- name: Create AAP Config as code Job Templates
+  job_type: run
+  inventory: Demo Inventory
+  project: config_code
+  playbook: aap_templates.yml
+
 git_creds: 'aoyawale_test'
 git_org: 'Default'
 git_name: 'aoyawale config as code'
@@ -58,28 +65,3 @@ github_repo_desc:
 github_repo_status:
 github_repo_state:
 
-controller_templates:
-- name: Survey Template with vars
-  job_type: run
-  inventory: Demo Inventory
-  execution_environment: my_exec_env
-  survey_enabled: true
-  survey: "{{ lookup('template', 'template_surveys/basic_survey.json') | regex_replace('\\n', '') }}"
-  project: controller Config
-  playbook: helloworld.yml
-  credentials:
-  - Demo Credential
-  extra_vars: "{{ survey_extra_vars }}"
-  notification_templates_error:
-  - Slack_for_testing
-- name: No Survey Template no vars
-  job_type: run
-  inventory: Demo Inventory
-  project: controller Config
-  playbook: helloworld.yml
-  credentials:
-  - Demo Credential
-  survey: {}
-  extra_vars: "{{ empty_master_vars }}"
-  notification_templates_error:
-  - Slack_for_testing
