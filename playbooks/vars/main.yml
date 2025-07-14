@@ -8,7 +8,8 @@ controller_credentials:
   inputs:
     username: person
     password: password
-
+      #ssh_key_data: "{{ lookup('file', '/tmp/id_rsa') }}"
+      #ssh_key_unlock: "passphrase"
 controller_projects:
 - name: AAP Config as coode Project
   organization: Default
@@ -20,7 +21,7 @@ controller_projects:
   scm_url: git@github.com:aoyawale/devspaces_ansible.git
 
 controller_templates:
-- name: Create AAP Project Credentials
+- name: Create Credentials
   job_type: run
   inventory: Demo Inventory
   project: config_code
@@ -29,7 +30,7 @@ controller_templates:
   - Demo Credential
   survey: {}
   #extra_vars: "{{ empty_master_vars }}"
-- name: Create AAP Git Project
+- name: Create Project
   job_type: run
   inventory: Demo Inventory
   project: config_code
@@ -37,11 +38,55 @@ controller_templates:
   credentials:
   - Demo Credential
   survey: {}
-- name: Create AAP Config as code Job Templates
+- name: Create Job Templates
   job_type: run
   inventory: Demo Inventory
   project: config_code
   playbook: aap_templates.yml
+
+controller_workflows:
+  - name: AAP Configuration As Code Workflow
+    description: Workflow to create different AAP items
+    extra_vars: ''
+    survey_enabled: false
+    allow_simultaneous: false
+    ask_variables_on_launch: false
+    inventory:
+    limit:
+    scm_branch:
+    ask_inventory_on_launch: false
+    ask_scm_branch_on_launch: false
+    ask_limit_on_launch: false
+    destroy_current_nodes: false
+    webhook_service: ''
+    webhook_credential:
+    organization: Default
+    schedules: []
+    simplified_workflow_nodes:
+      - all_parents_must_converge: false
+        identifier: node101
+        unified_job_template: Create Credential
+        credentials: []
+        success_nodes:
+          - node201
+        failure_nodes: []
+        always_nodes: []
+      - identifier: node201
+        unified_job_template: Create project
+        success_nodes:
+          - node301
+      - all_parents_must_converge: false
+        identifier: node301
+        unified_job_template: Create Job template
+        credentials: []
+        success_nodes: []
+        failure_nodes: []
+        always_nodes: []
+    notification_templates_started: []
+    notification_templates_success: []
+    notification_templates_error: []
+    notification_templates_approvals: []
+    survey_spec: {}
 
 git_creds: 'aoyawale_test'
 git_org: 'Default'
