@@ -1,5 +1,5 @@
 ---
-- name: Create Projects
+- name: Create Workflows
   hosts: localhost
   connection: local
   # Define following vars here, or in platform_configs/controller_auth.yml
@@ -13,4 +13,5 @@
         ignore_files: [controller_config.yml.template]
         extensions: ["yml"]
   roles:
-    - {role: infra.aap_configuration.controller_projects, when: controller_projects is defined}
+    - {role: infra.aap_configuration.controller_workflow_job_templates, when: controller_workflows is defined}
+
