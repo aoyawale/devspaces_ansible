@@ -1,17 +1,18 @@
 ---
 
 controller_credentials:
-- name: Github Credentials
-  description: Credentials for Github
-  organization: Default
-  credential_type: Source Control
+- name: 'Github Credentials'
+  description: 'Credentials for Github'
+  organization: 'Default'
+  credential_type: 'Source Control'
   inputs:
     username: person
     password: password
       #ssh_key_data: "{{ lookup('file', '/tmp/id_rsa') }}"
       #ssh_key_unlock: "passphrase"
 controller_projects:
-- name: AAP Config as coode Project
+- name: 'AAP Config As Code Project'
+  credential: 'Github Credentials'
   organization: Default
   scm_branch: main
   scm_clean: 'no'
@@ -24,7 +25,7 @@ controller_templates:
 - name: Create Credentials
   job_type: run
   inventory: Demo Inventory
-  project: config_code
+  project: 'AAP Config As Code Project'
   playbook: aap_credentials.yml
   credentials:
   - Demo Credential
@@ -33,7 +34,7 @@ controller_templates:
 - name: Create Project
   job_type: run
   inventory: Demo Inventory
-  project: config_code
+  project: 'AAP Config As Code Project'
   playbook: aap_projects.yml
   credentials:
   - Demo Credential
@@ -41,7 +42,7 @@ controller_templates:
 - name: Create Job Templates
   job_type: run
   inventory: Demo Inventory
-  project: config_code
+  project: 'AAP Config As Code Project'
   playbook: aap_templates.yml
 
 controller_workflows:
@@ -65,19 +66,19 @@ controller_workflows:
     simplified_workflow_nodes:
       - all_parents_must_converge: false
         identifier: node101
-        unified_job_template: Create Credential
+        unified_job_template: Create Credentials
         credentials: []
         success_nodes:
           - node201
         failure_nodes: []
         always_nodes: []
       - identifier: node201
-        unified_job_template: Create project
+        unified_job_template: Create Project
         success_nodes:
           - node301
       - all_parents_must_converge: false
         identifier: node301
-        unified_job_template: Create Job template
+        unified_job_template: Create Job templates
         credentials: []
         success_nodes: []
         failure_nodes: []
@@ -92,9 +93,9 @@ git_creds: 'aoyawale_test'
 git_org: 'Default'
 git_name: 'aoyawale config as code'
 git_url: 'git@github.com:aoyawale/devspaces_ansible.git'
-aap_hostname: 
-aap_username:
-aap_password:
+aap_hostname: aap-hybrid2.orisha.io
+aap_username: admin
+aap_password: redhat
 controller_username: "{{ aap_username | default(omit, true) }}"
 controller_password: "{{ aap_password | default(omit, true) }}"
 controller_oauthtoken: "{{ aap_token | default(omit, true) }}"
@@ -102,11 +103,10 @@ controller_playbook: 'aap_config.yml'
 request_timeout: "{{ aap_request_timeout | default(omit, true) }}"
 controller_host: "{{ aap_hostname | default(omit, true) }}"
 validate_certs: "{{ aap_validate_certs | default(omit) }}"
-  
+
 github_repo_token:
 github_repo_org:
 github_repo_name:
 github_repo_desc:
 github_repo_status:
 github_repo_state:
-
