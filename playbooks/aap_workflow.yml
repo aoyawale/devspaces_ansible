@@ -1,17 +1,18 @@
 ---
-- name: Create Workflows
+- name: Create AAP Workflows
   hosts: localhost
   connection: local
-  # Define following vars here, or in platform_configs/controller_auth.yml
-  # aap_hostname: ansible-controller-web-svc-test-project.example.com
-  # aap_username: admin
-  # aap_password: changeme
+  vars:
+    controller_hostname:
+    controller_username:
+    controller_password:
+    controller_validate_certs: 'false'
   pre_tasks:
     - name: Include vars from platform_configs directory
       ansible.builtin.include_vars:
-        dir: ./yaml
+        dir: ./vars
         ignore_files: [controller_config.yml.template]
         extensions: ["yml"]
   roles:
-    - {role: infra.aap_configuration.controller_workflow_job_templates, when: controller_workflows is defined}
-
+    - {role: infra.controller_configuration.workflow_job_templates, when: controller_workflows is defined}
+~                                                                                                                       ~                                                                                                    
