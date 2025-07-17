@@ -1,0 +1,15 @@
+---
+
+- name: Get An Oauth Token from AAP
+  hosts: localhost
+  connection: local
+  pre_tasks:
+    - name: Create a new token using controller username/password
+      awx.awx.token:
+        description: 'Creating token to test controller jobs'
+        scope: "write"
+        state: present
+        controller_host: "{{ controller_hostname }}"
+        controller_username: "{{ controller_username }}"
+        controller_password: "{{ controller_password }}"
+
