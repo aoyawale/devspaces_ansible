@@ -10,16 +10,26 @@ controller_credentials:
     password: password
       #ssh_key_data: "{{ lookup('file', '/tmp/id_rsa') }}"
       #ssh_key_unlock: "passphrase"
+
 controller_projects:
 - name: 'AAP Config As Code Project'
   credential: 'Github Credentials'
-  organization: Default
+  organization: 'Default'
   scm_branch: main
   scm_clean: 'no'
   scm_delete_on_update: 'no'
   scm_type: git
-  scm_update_on_launch: 'no'
-  scm_url: git@github.com:aoyawale/devspaces_ansible.git
+  scm_update_on_launch: 'yes'
+  scm_url: 'git@github.com:aoyawale/devspaces_ansible.git'
+- name: 'AAP Github Automation'
+  credentials: 'Github Credentials'
+  organization: 'Default'
+  scm-branch: 'chrhamme-devel'
+  scm_clean: 'no'
+  scm_delete_on_update: 'no'
+  scm_type: 'git'
+  scm_update_on_launch: 'yes'
+  scm_url: 'git@github.com:hammer-redhat/backvirt-boys.git'
 
 controller_templates:
 - name: Create Credentials
