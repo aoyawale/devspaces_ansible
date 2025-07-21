@@ -92,6 +92,12 @@ controller_workflows:
         identifier: Create Job Template
         unified_job_template: Create Job Template
 
+github_webhook_repo: 'ansible/ansible'
+github_webhook_url: 'https://aap/webhook'
+github_webhook_user: 'aoyawale'
+github_webhook_token: 'mylongtoken'
+github_webhook_state: 'present'
+
 git_creds: 'aoyawale_test'
 git_org: 'Default'
 git_name: 'aoyawale config as code'

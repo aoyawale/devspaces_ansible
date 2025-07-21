@@ -1,0 +1,17 @@
+---
+
+- name: Create Github Webhooks
+  hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Create a Github Webhook that triggers on push
+      community.general.github_webhook:
+        repository: "{{ github_webhook_repo }}"
+        url: "{{ github_webhook_url }}"
+        user: "{{ github_webhook_user }}"
+        token: "{{ github_webhook_token }}"
+        state: "{{ github_webhook_state }}"      
+        events:
+          - push
+      
